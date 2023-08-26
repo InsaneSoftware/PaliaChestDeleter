@@ -80,10 +80,10 @@ while not stop_pressed:
             simulate_mouse_click(1150, 450)  # right from the menu
             if pyautogui.locateOnScreen('img/perfect.png', grayscale=True, confidence=0.80) is not None:
                 if pyautogui.locateOnScreen('img/money.png', grayscale=True, confidence=0.80) is not None:
-                    print_with_timestamp("INFO: I catched something and sold it")
+                    print_with_timestamp("INFO: I caught something and sold it")
                     time.sleep(2)  # dont spam pls xD
                 else:
-                    print_with_timestamp("WARNING: I catched something but cannot sell it!")
+                    print_with_timestamp("WARNING: I caught something but cannot sell it!")
 
                     # destroy chest
                     simulate_key_press('i')
@@ -98,7 +98,7 @@ while not stop_pressed:
                     print_with_timestamp("INFO: Chest deleted!")
                     time.sleep(1)
         else:
-            print_with_timestamp("INFO: Waiting until Palia is focussed")
+            print_with_timestamp("INFO: Waiting until Palia is focused")
             time.sleep(3)
     except Exception as e:
         print_with_timestamp("An error occurred:", e)
