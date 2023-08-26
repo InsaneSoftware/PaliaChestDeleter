@@ -23,7 +23,7 @@ stop_pressed = False
 
 
 def print_with_timestamp(message):
-    current_time = datetime.datetime.now().strftime('%d-%m-%Y %H:%M')
+    current_time = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
     print(f"[{current_time}] {message}")
 
 
@@ -95,10 +95,10 @@ while not stop_pressed:
                     simulate_mouse_click(1030, 560)  # confirm destroy
                     time.sleep(1)
                     simulate_key_press('i')
-                    print("INFO: Chest deleted!")
+                    print_with_timestamp("INFO: Chest deleted!")
                     time.sleep(1)
         else:
-            print_with_timestamp("INFO: Waiting until Palia is focussed (opened)")
+            print_with_timestamp("INFO: Waiting until Palia is focussed")
             time.sleep(3)
     except Exception as e:
         print_with_timestamp("An error occurred:", e)
