@@ -78,10 +78,10 @@ while not stop_pressed:
                 continue
 
             simulate_mouse_click(1150, 450)  # right from the menu
-            if pyautogui.locateOnScreen('img/catch.png', grayscale=True, confidence=0.80) is not None:
+            if pyautogui.locateOnScreen('img/perfect.png', grayscale=True, confidence=0.80) is not None:
                 if pyautogui.locateOnScreen('img/money.png', grayscale=True, confidence=0.80) is not None:
                     print_with_timestamp("INFO: I catched something and sold it")
-                    time.sleep(1)  # dont spam pls xD
+                    time.sleep(2)  # dont spam pls xD
                 else:
                     print_with_timestamp("WARNING: I catched something but cannot sell it!")
 
