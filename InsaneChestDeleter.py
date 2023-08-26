@@ -3,6 +3,7 @@ import pyautogui
 import time
 import win32api
 import win32con
+import datetime
 
 # Virtual key codes for keys
 VK_CODE = {
@@ -19,6 +20,11 @@ MOUSE_RIGHTUP = win32con.MOUSEEVENTF_RIGHTUP
 # stop key
 stop_key = 'esc'
 stop_pressed = False
+
+
+def print_with_timestamp(message):
+    current_time = datetime.datetime.now().strftime('%d-%m-%Y %H:%M')
+    print(f"[{current_time}] {message}")
 
 
 def simulate_key_press(key):
@@ -46,13 +52,13 @@ def simulate_mouse_click(x, y):
     win32api.mouse_event(MOUSE_LEFTUP, x, y, 0, 0)  # Release the left mouse button
 
 
-print("Started auto delete chests and clicker...")
+print_with_timestamp("Started auto delete chests and clicker...")
 
 while not stop_pressed:
     try:
         if win32api.GetAsyncKeyState(VK_CODE['end']) != 0:
             stop_pressed = True
-            print("INFO: Exit key pressed")
+            print_with_timestamp("INFO: Exit key pressed")
             break
 
         focused_window = gw.getActiveWindow()
@@ -61,19 +67,23 @@ while not stop_pressed:
 
             # pause bot when in esc/options menu
             if pyautogui.locateOnScreen('img/options.png', grayscale=True, confidence=0.80) is not None:
+                print_with_timestamp("INFO: Waiting to get out of menu")
+                time.sleep(3)
                 continue
 
             # pause bot when in inventory
             if pyautogui.locateOnScreen('img/items.png', grayscale=True, confidence=0.80) is not None:
+                print_with_timestamp("INFO: Waiting to get out of inventory")
+                time.sleep(3)
                 continue
 
-            simulate_mouse_click(950, 450)  # center of screen
+            simulate_mouse_click(1150, 450)  # right from the menu
             if pyautogui.locateOnScreen('img/catch.png', grayscale=True, confidence=0.80) is not None:
                 if pyautogui.locateOnScreen('img/money.png', grayscale=True, confidence=0.80) is not None:
-                    print("INFO: I catched something and sold it")
+                    print_with_timestamp("INFO: I catched something and sold it")
                     time.sleep(1)  # dont spam pls xD
                 else:
-                    print("WARNING: I catched something but cannot sell it!")
+                    print_with_timestamp("WARNING: I catched something but cannot sell it!")
 
                     # destroy chest
                     simulate_key_press('i')
@@ -88,6 +98,7 @@ while not stop_pressed:
                     print("INFO: Chest deleted!")
                     time.sleep(1)
         else:
-            time.sleep(1)
+            print_with_timestamp("INFO: Waiting until Palia is focussed (opened)")
+            time.sleep(3)
     except Exception as e:
-        print("An error occurred:", e)
+        print_with_timestamp("An error occurred:", e)
