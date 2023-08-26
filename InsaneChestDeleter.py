@@ -27,11 +27,6 @@ stop_key = 'esc'
 stop_pressed = False
 
 
-def print_with_timestamp(message):
-    current_time = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
-    print(f"[{current_time}] {message}")
-
-
 def simulate_key_press(key):
     vk_code = VK_CODE.get(key, None)
     if vk_code is not None:
