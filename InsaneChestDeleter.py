@@ -119,9 +119,11 @@ while not stop_pressed:
             if pyautogui.locateOnScreen('img/perfect.png', grayscale=True, confidence=0.80) is not None:
                 if pyautogui.locateOnScreen('img/money.png', grayscale=True, confidence=0.80) is not None:
                     print_with_timestamp("INFO: I caught something and sold it")
-                    time.sleep(2)  # don't spam pls xD
+                    time.sleep(2)  # don`t spam pls xD
                 else:
                     print_with_timestamp("WARNING: I caught something but cannot sell it!")
+
+                    # destroy chest
                     simulate_key_press('i')
                     time.sleep(1)
                     simulate_right_click(1100, 830)
