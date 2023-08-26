@@ -4,12 +4,17 @@ import time
 import win32api
 import win32con
 import datetime
+import tkinter as tk
+from threading import Thread
 
 # Virtual key codes for keys
 VK_CODE = {
     'i': 0x49,
     'end': 0x23
 }
+
+root = None
+label = None
 
 # Constants for mouse actions
 MOUSE_LEFTDOWN = win32con.MOUSEEVENTF_LEFTDOWN
@@ -51,8 +56,41 @@ def simulate_mouse_click(x, y):
     time.sleep(0.1)  # Wait for a short duration
     win32api.mouse_event(MOUSE_LEFTUP, x, y, 0, 0)  # Release the left mouse button
 
+def create_overlay(): # Creating the overlay window
+    global root, label
 
-print_with_timestamp("Started auto delete chests and clicker...")
+    root = tk.Tk()
+    root.geometry('400x250+0+100')
+    root.overrideredirect(1)
+    root.attributes('-alpha', 1)
+    root.attributes("-topmost", True)
+    root.attributes("-transparentcolor", "white")
+    root.configure(bg='white')
+
+    label = tk.Label(root, text="", bg='black', fg='white')
+    label.pack(padx=10, pady=10, expand=True, fill='both')
+
+    root.mainloop()
+
+
+# Thread for the overlay window
+overlay_thread = Thread(target=create_overlay)
+overlay_thread.daemon = True  # Set the thread as daemon
+overlay_thread.start()
+
+
+def print_with_timestamp(message):
+    current_time = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+    formatted_message = f"[{current_time}] {message}"
+    
+    print(formatted_message)
+
+    if label:
+        existing_text = label.cget('text')
+        new_text = existing_text + '\n' + formatted_message
+        label.config(text=new_text)
+        root.update()
+
 
 while not stop_pressed:
     try:
@@ -81,7 +119,7 @@ while not stop_pressed:
             if pyautogui.locateOnScreen('img/perfect.png', grayscale=True, confidence=0.80) is not None:
                 if pyautogui.locateOnScreen('img/money.png', grayscale=True, confidence=0.80) is not None:
                     print_with_timestamp("INFO: I caught something and sold it")
-                    time.sleep(2)  # dont spam pls xD
+                    time.sleep(2)  # don`t spam pls xD
                 else:
                     print_with_timestamp("WARNING: I caught something but cannot sell it!")
 
@@ -90,15 +128,18 @@ while not stop_pressed:
                     time.sleep(1)
                     simulate_right_click(1100, 830)
                     time.sleep(1)
-                    simulate_mouse_click(1150, 910)  # destroy chest
+                    throwaway_position = pyautogui.locateCenterOnScreen('img/throwaway.png', grayscale=True, confidence=0.80) # Check for throwaway button instead. This is necessary because sometimes you don't get a chest and a collectable item
+                    simulate_mouse_click(throwaway_position[0], throwaway_position[1])
                     time.sleep(1)
                     simulate_mouse_click(1030, 560)  # confirm destroy
                     time.sleep(1)
                     simulate_key_press('i')
-                    print_with_timestamp("INFO: Chest deleted!")
+                    print_with_timestamp("INFO: JUNK deleted!")
                     time.sleep(1)
+
         else:
             print_with_timestamp("INFO: Waiting until Palia is focused")
             time.sleep(3)
     except Exception as e:
-        print_with_timestamp("An error occurred:", e)
+        print_with_timestamp("An error occurred: " + str(e)) # Print error message correctly
+        break # Break the loop.

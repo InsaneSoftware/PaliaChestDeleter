@@ -3,7 +3,7 @@ echo off
 cls
 echo Installing Dependencies:
 echo .
-pip install opencv-python PyGetWindow PyAutoGUI pywin32
+pip install opencv-python PyGetWindow PyAutoGUI pywin32 tkinter
 echo .
 echo Done! installing dependencies. Starting script!
 echo .
