@@ -56,7 +56,8 @@ def simulate_mouse_click(x, y):
     time.sleep(0.1)  # Wait for a short duration
     win32api.mouse_event(MOUSE_LEFTUP, x, y, 0, 0)  # Release the left mouse button
 
-def create_overlay(): # Creating the overlay window
+
+def create_overlay():  # Creating the overlay window
     global root, label
 
     root = tk.Tk()
@@ -67,7 +68,7 @@ def create_overlay(): # Creating the overlay window
     root.attributes("-transparentcolor", "white")
     root.configure(bg='white')
 
-    label = tk.Label(root, text="", bg='black', fg='white')
+    label = tk.Label(root, text="", bg='black', fg='white', anchor='nw', justify='left', font=("Arial", 10))
     label.pack(padx=10, pady=10, expand=True, fill='both')
 
     root.mainloop()
@@ -82,7 +83,7 @@ overlay_thread.start()
 def print_with_timestamp(message):
     current_time = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
     formatted_message = f"[{current_time}] {message}"
-    
+
     print(formatted_message)
 
     if label:
@@ -121,14 +122,15 @@ while not stop_pressed:
                     print_with_timestamp("INFO: I caught something and sold it")
                     time.sleep(2)  # don`t spam pls xD
                 else:
-                    print_with_timestamp("WARNING: I caught something but cannot sell it!")
+                    print_with_timestamp("WARNING: I caught Junk")
 
                     # destroy chest
                     simulate_key_press('i')
                     time.sleep(1)
                     simulate_right_click(1100, 830)
                     time.sleep(1)
-                    throwaway_position = pyautogui.locateCenterOnScreen('img/throwaway.png', grayscale=True, confidence=0.80) # Check for throwaway button instead. This is necessary because sometimes you don't get a chest and a collectable item
+                    throwaway_position = pyautogui.locateCenterOnScreen('img/throwaway.png', grayscale=True,
+                                                                        confidence=0.80)  # Check for throwaway button instead. This is necessary because sometimes you don't get a chest and a collectable item
                     simulate_mouse_click(throwaway_position[0], throwaway_position[1])
                     time.sleep(1)
                     simulate_mouse_click(1030, 560)  # confirm destroy
@@ -141,5 +143,5 @@ while not stop_pressed:
             print_with_timestamp("INFO: Waiting until Palia is focused")
             time.sleep(3)
     except Exception as e:
-        print_with_timestamp("An error occurred: " + str(e)) # Print error message correctly
-        break # Break the loop.
+        print_with_timestamp("An error occurred: " + str(e))  # Print error message correctly
+        break  # Break the loop.
