@@ -60,7 +60,7 @@ def create_overlay(): # Creating the overlay window
     global root, label
 
     root = tk.Tk()
-    root.geometry('300x150+100+100')
+    root.geometry('400x250+0+100')
     root.overrideredirect(1)
     root.attributes('-alpha', 1)
     root.attributes("-topmost", True)
