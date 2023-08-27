@@ -24,7 +24,7 @@ Before running the script, make sure you have the following libraries and tools 
 1. Install the required libraries by running the following commands:
 
 ``` bash
-pip install opencv-python PyGetWindow PyAutoGUI pywin32 tkinter
+pip install opencv-python PyGetWindow PyAutoGUI pywin32
 ```
 
 2. Ensure you have appropriate image files (`options.png`, `items.png`, `catch.png`, `money.png`) available in a folder named `img` in the same directory as the script. These images are used for GUI recognition.
